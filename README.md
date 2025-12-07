@@ -1,56 +1,66 @@
-High-Level Architecture – SentinelGuard AI Gateway                   
-                   ┌───────────────────────────────────┐
-                   │             User Prompt            │
-                   └───────────────────────────────────┘
-                                   │
-                                   ▼
-        ┌─────────────────────────────────────────────────────────┐
-        │              SentinelGuard Safety Gateway               │
-        └─────────────────────────────────────────────────────────┘
-                                   │
-                                   ▼
-────────────────────────────────────────────────────────────────────────
-      1. Detection Layer (Rule-Based + ML + Heuristics)
-────────────────────────────────────────────────────────────────────────
-│  • Regex Detectors → PII, emails, API keys, credentials           │
-│  • Financial Detector → salary, revenue, ₹ amounts                │
-│  • Harmful Intent Detector → hacking/violence override            │
-│  • ML Classifier (Logistic Regression) → SAFE / SENSITIVE / POLICY│
-│                                                                     │
-────────────────────────────────────────────────────────────────────────
-      2. Policy RAG Layer
-────────────────────────────────────────────────────────────────────────
-│  • Handbook PDF → chunked & vectorized with TF-IDF               │
-│  • Prompt similarity → relevant policy sections retrieved         │
-│  • Policy alignment score computed                                │
-│                                                                     │
-────────────────────────────────────────────────────────────────────────
-      3. Risk & Confidence Engine
-────────────────────────────────────────────────────────────────────────
-│  final_risk = 0.7*detectors + 0.1*ml + 0.2*policy                 │
-│  confidence = weighted ML + detector agreement + policy match     │
-│                                                                     │
-────────────────────────────────────────────────────────────────────────
-      4. Decision Engine
-────────────────────────────────────────────────────────────────────────
-│  • ALLOW (safe)                                                   │
-│  • REDACT (fixable)                                               │
-│  • BLOCK (unsafe / harmful)                                       │
-│                                                                     │
-────────────────────────────────────────────────────────────────────────
-      5. Sanitization Layer
-────────────────────────────────────────────────────────────────────────
-│  • Redacts spans → [REDACTED_EMAIL], [REDACTED_SECRET], etc.      │
-│                                                                     │
-────────────────────────────────────────────────────────────────────────
-      6. Output to LLM
-────────────────────────────────────────────────────────────────────────
-│  • Only sanitized prompt is forwarded                             │
-│  • Dummy LLM response shown in UI                                 │
-────────────────────────────────────────────────────────────────────────
-                                   │
-                                   ▼
-        ┌─────────────────────────────────────────────────────────┐
-        │                       Frontend UI                        │
-        │   Chat Window + Safety Inspector + Ask Compliance        │
-        └─────────────────────────────────────────────────────────┘
+High-Level Architecture – SentinelGuard AI Gateway
+                          ┌───────────────────────┐
+                          │      User Prompt      │
+                          └───────────────────────┘
+                                      │
+                                      ▼
+                  ┌──────────────────────────────────────────┐
+                  │        SentinelGuard Safety Gateway       │
+                  └──────────────────────────────────────────┘
+                                      │
+                                      ▼
+───────────────────────────────────────────────────────────────────────────
+1) DETECTION LAYER  (Rule-Based + ML + Heuristics)
+───────────────────────────────────────────────────────────────────────────
+• Regex Detectors          → PII, emails, API keys, credentials  
+• Financial Detector        → salary, revenue, currency markers  
+• Harmful Intent Detector   → hacking / violence override  
+• ML Classifier (LogReg)    → SAFE / SENSITIVE / POLICY_RISK / HARMFUL  
+
+
+───────────────────────────────────────────────────────────────────────────
+2) POLICY RAG LAYER
+───────────────────────────────────────────────────────────────────────────
+• PDF Handbook → extracted & chunked  
+• TF-IDF vectorizer → document retrieval  
+• Similarity search → top policy sections  
+• Policy alignment score (0–1)  
+
+
+───────────────────────────────────────────────────────────────────────────
+3) RISK & CONFIDENCE ENGINE
+───────────────────────────────────────────────────────────────────────────
+final_risk     = 0.7 * detector_risk  + 0.1 * ml_risk + 0.2 * policy_alignment  
+confidence     = weighted ML + detector agreement + policy match  
+
+
+───────────────────────────────────────────────────────────────────────────
+4) DECISION ENGINE
+───────────────────────────────────────────────────────────────────────────
+• ALLOW     → safe  
+• REDACT    → fixable sensitive info  
+• BLOCK     → unsafe / harmful  
+
+
+───────────────────────────────────────────────────────────────────────────
+5) SANITIZATION LAYER
+───────────────────────────────────────────────────────────────────────────
+• Replaces spans:
+    email      → [REDACTED_EMAIL]  
+    secret     → [REDACTED_SECRET]  
+    amounts    → [REDACTED_AMOUNT]  
+
+
+───────────────────────────────────────────────────────────────────────────
+6) OUTPUT TO LLM
+───────────────────────────────────────────────────────────────────────────
+• Only sanitized prompt forwarded  
+• Dummy LLM response shown in UI  
+
+
+                                      │
+                                      ▼
+                ┌──────────────────────────────────────────┐
+                │                Frontend UI                │
+                │ Chat Window + Safety Inspector + Compliance│
+                └──────────────────────────────────────────┘
