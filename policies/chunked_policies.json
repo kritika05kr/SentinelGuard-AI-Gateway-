@@ -1,0 +1,20 @@
+[
+  {
+    "id": "policy-4.3",
+    "section": "4.3",
+    "title": "Source Code & Secrets",
+    "text": "Secrets (passwords, API keys, certificates, tokens, API keys like sk_live_xxx) must never be shared with external tools or copied into public channels."
+  },
+  {
+    "id": "policy-5.1",
+    "section": "5.1",
+    "title": "PII Handling",
+    "text": "Email IDs, phone numbers and other personally identifiable information (PII) of employees or customers must be redacted or anonymized before sharing with external services."
+  },
+  {
+    "id": "policy-6.2",
+    "section": "6.2",
+    "title": "Financial Data Confidentiality",
+    "text": "Internal revenue figures, transaction volumes, pricing models and other financial data must not be shared with third-party AI tools without prior approval from the finance and security team."
+  }
+]

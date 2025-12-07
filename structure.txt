@@ -1,0 +1,103 @@
+SentinelGuard/
+│
+├── backend/
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── api/
+│   │   │   ├── analyze.py
+│   │   │   ├── complete.py
+│   │   │   ├── admin.py
+│   │   │   └── health.py
+│   │   ├── core/
+│   │   │   ├── config.py
+│   │   │   ├── security.py
+│   │   │   ├── embeddings.py
+│   │   │   └── logging_config.py
+│   │   ├── detectors/
+│   │   │   ├── pii_detector.py
+│   │   │   ├── secret_detector.py
+│   │   │   ├── financial_detector.py
+│   │   │   ├── legal_classifier.py
+│   │   │   ├── sensitivity_classifier.py
+│   │   │   └── utils.py
+│   │   ├── policy/
+│   │   │   ├── rag_store.py
+│   │   │   ├── rag_retrieve.py
+│   │   │   ├── rule_engine.py
+│   │   │   └── policy_loader.py
+│   │   ├── risk/
+│   │   │   ├── risk_engine.py
+│   │   │   └── confidence_engine.py
+│   │   ├── sanitize/
+│   │   │   ├── redact.py
+│   │   │   ├── rewrite.py
+│   │   │   └── sanitize_utils.py
+│   │   ├── llm/
+│   │   │   ├── local_llm.py
+│   │   │   └── system_prompt.txt
+│   │   ├── audit/
+│   │   │   ├── audit_logger.py
+│   │   │   └── audit_models.py
+│   │   ├── models/
+│   │   │   ├── schemas.py
+│   │   │   ├── detection_models.py
+│   │   │   ├── decision_models.py
+│   │   │   └── response_models.py
+│   │   └── utils/
+│   │       ├── text_utils.py
+│   │       └── highlight_spans.py
+│   │
+│   ├── requirements.txt
+│   ├── README.md
+│   └── run_local.sh
+│
+├── ml_models/
+│   ├── embeddings_model/
+│   ├── legal_classifier/
+│   ├── sensitivity_classifier/
+│   └── vector_store_faiss/
+│
+├── policies/
+│   ├── employee_handbook.pdf
+│   ├── security_policy.txt
+│   ├── data_protection_policy.txt
+│   └── chunked_policies.json
+│
+├── frontend/
+│   ├── src/
+│   │   ├── pages/
+│   │   │   ├── ChatPage.jsx
+│   │   │   ├── AdminPage.jsx
+│   │   │   └── LogsPage.jsx
+│   │   ├── components/
+│   │   │   ├── ChatWindow.jsx
+│   │   │   ├── UserMessage.jsx
+│   │   │   ├── BotMessage.jsx
+│   │   │   ├── SafetyPanel.jsx
+│   │   │   ├── RiskMeter.jsx
+│   │   │   ├── PolicyCard.jsx
+│   │   │   ├── DetectionChips.jsx
+│   │   │   ├── RedactionPreview.jsx
+│   │   │   ├── TimelineStep.jsx
+│   │   │   ├── HighlightedText.jsx
+│   │   │   └── ConfidenceBox.jsx
+│   │   ├── utils/
+│   │   │   ├── color_map.js
+│   │   │   └── api.js
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── index.html
+│   └── package.json
+│
+├── data/
+│   ├── sample_inputs/
+│   ├── sample_outputs/
+│   └── test_cases/
+│
+├── scripts/
+│   ├── chunk_policies.py
+│   ├── train_legal_classifier.py
+│   ├── train_sensitivity_model.py
+│   └── build_vector_store.py
+│
+└── README.md

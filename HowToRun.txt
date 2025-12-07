@@ -1,0 +1,136 @@
+🟦 1. Start the backend (FastAPI + Uvicorn)
+Step 1: Open a new PowerShell window
+
+Press Win key
+
+Type PowerShell → Enter
+
+Step 2: Go to backend folder
+cd "C:\Projects\SentinelGuard AI Gateway\backend"
+
+
+You can check you’re in the right place:
+
+ls
+
+
+You should see things like: app, policies, scripts, venv, requirements.txt etc.
+
+Step 3: Activate virtual environment
+.\venv\Scripts\Activate
+
+
+You should now see:
+
+(venv) PS C:\Projects\SentinelGuard AI Gateway\backend>
+
+
+If you don’t see (venv), the venv is not active.
+
+Step 4: Run the FastAPI server
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+
+If everything is ok, you’ll see:
+
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+[POLICY RAG] Loaded 33 chunks from ...chunked_policies.json
+
+
+➡️ Do NOT close this window.
+Just leave it running in the background.
+
+Step 5: Quick backend test (optional but useful)
+
+Open your browser and go to:
+
+http://localhost:8000/docs
+
+
+If you see Swagger UI with:
+
+POST /api/analyze
+
+POST /api/compliance/ask
+
+→ backend is healthy ✅
+
+🟩 2. Start the frontend (React + Vite)
+
+Now open another PowerShell window (don’t close the backend one!).
+
+Step 1: Go to frontend folder
+cd "C:\Projects\SentinelGuard AI Gateway\frontend"
+
+
+Check:
+
+ls
+
+
+You should see things like: src, index.html, package.json, vite.config, etc.
+
+Step 2: Run the dev server
+npm run dev
+
+
+Vite will show something like:
+
+VITE v5.x.x  ready in Xs
+
+  ➜  Local:   http://localhost:5173/
+
+
+Again ➡️ Do NOT close this window.
+Just keep it running.
+
+Step 3: Open the UI
+
+In your browser:
+
+http://localhost:5173/
+
+
+You should see your app with:
+
+Top nav: SentinelGuard AI Gateway
+
+Tabs: Guardrail Chat and Ask Compliance
+
+🔁 Every time you restart your laptop / VS Code / anything
+
+You always do:
+
+For backend:
+
+cd "C:\Projects\SentinelGuard AI Gateway\backend"
+.\venv\Scripts\Activate
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+
+For frontend:
+
+cd "C:\Projects\SentinelGuard AI Gateway\frontend"
+npm run dev
+
+
+That’s it. No need to rebuild venv or reinstall npm packages unless you delete things.
+
+❌ If something goes wrong
+
+White blank page on http://localhost:5173
+→ Check frontend terminal for red error.
+
+Failed to fetch in UI
+→ Backend probably crashed. Check the backend terminal for a red traceback.
+
+http://localhost:8000/docs
+ not opening
+→ Backend is not running or crashed.
+
+If you get a red error again, just copy the error text from PowerShell and paste it to me — I’ll tell you exactly what line to fix.
+
+
+SAMPLE PROMPT:
+Here is our production API key sk_live_123456 and customer emails
+a@company.com, b@company.com. Revenue last month was ₹1200000.
