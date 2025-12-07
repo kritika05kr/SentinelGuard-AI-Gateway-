@@ -5,51 +5,49 @@
                                       ▼
                   ┌──────────────────────────────────────────┐
                   │        SentinelGuard Safety Gateway       │
+                  │              (Full Pipeline)              │
                   └──────────────────────────────────────────┘
                                       │
                                       ▼
-
-──────────────────────────── 1) DETECTION LAYER ────────────────────────────
-• Regex Detectors          → PII, emails, API keys, credentials
-• Financial Detector        → salary, revenue, currency amounts
-• Harmful Intent Detector   → hacking / violence override
-• ML Classifier (LogReg)    → SAFE / SENSITIVE / POLICY_RISK / HARMFUL
-
-──────────────────────────── 2) POLICY RAG LAYER ───────────────────────────
-• Employee Handbook PDF → extracted & chunked
-• TF-IDF vectorizer     → vector store
-• Similarity search     → top policy matches
-• Policy alignment score (0–1)
-
-──────────────────────────── 3) RISK ENGINE ─────────────────────────────────
-final_risk =
-    0.7 * detector_risk
-  + 0.1 * ml_risk
-  + 0.2 * policy_alignment
-
-──────────────────────────── 4) CONFIDENCE ENGINE ──────────────────────────
-confidence =
-    weighted ML confidence
-  + detector agreement
-  + policy match strength
-
-──────────────────────────── 5) DECISION ENGINE ────────────────────────────
-• ALLOW   → safe
-• REDACT  → fixable sensitive info
-• BLOCK   → unsafe / harmful
-
-──────────────────────────── 6) SANITIZATION LAYER ─────────────────────────
-• email      → [REDACTED_EMAIL]
-• secret     → [REDACTED_SECRET]
-• amounts    → [REDACTED_AMOUNT]
-
-──────────────────────────── 7) OUTPUT TO LLM ──────────────────────────────
-• Only sanitized prompt is forwarded
-• Dummy LLM response shown in UI
-
+                  ┌──────────────────────────────────────────┐
+                  │                PIPELINE FLOW              │
+                  │──────────────────────────────────────────│
+                  │ 1) DETECTION LAYER                        │
+                  │    • Regex → emails, PII, API keys        │
+                  │    • Financial → revenue, salary, ₹       │
+                  │    • Harmful Intent → hacking/violence    │
+                  │    • ML Classifier → LogReg (4 classes)   │
+                  │                                            │
+                  │ 2) POLICY RAG LAYER                       │
+                  │    • Handbook → chunked + TF-IDF vectors  │
+                  │    • Similarity search → top policies     │
+                  │    • Policy alignment score (0–1)         │
+                  │                                            │
+                  │ 3) RISK ENGINE                            │
+                  │    final_risk =                           │
+                  │        0.7 * detector_risk                │
+                  │      + 0.1 * ml_risk                      │
+                  │      + 0.2 * policy_alignment             │
+                  │                                            │
+                  │ 4) CONFIDENCE ENGINE                      │
+                  │    confidence = ML + detectors + RAG      │
+                  │                                            │
+                  │ 5) DECISION ENGINE                        │
+                  │    • ALLOW                                │
+                  │    • REDACT                               │
+                  │    • BLOCK                                │
+                  │                                            │
+                  │ 6) SANITIZATION LAYER                     │
+                  │    • email → [REDACTED_EMAIL]             │
+                  │    • secret → [REDACTED_SECRET]           │
+                  │    • amount → [REDACTED_AMOUNT]           │
+                  │                                            │
+                  │ 7) OUTPUT TO LLM                          │
+                  │    • Only sanitized text forwarded         │
+                  └──────────────────────────────────────────┘
                                       │
                                       ▼
                 ┌──────────────────────────────────────────┐
                 │                Frontend UI                │
-                │ Chat + Safety Inspector + Compliance View │
+                │ Chat Window + Safety Inspector + RAG View │
                 └──────────────────────────────────────────┘
