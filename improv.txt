@@ -1,4 +1,4 @@
-🚀 NEXT STEPS (Choose whatever you want)
+🚀 NEXT STEPS
 1️⃣ Add “Admin Dashboard”
 
 Where you can:
@@ -84,8 +84,6 @@ Vector DB → Local JSON or free FAISS
 No paid APIs (we already avoided them)
 
 7️⃣ Make a full README + Documentation
-
-I can help you generate:
 
 architecture diagram
 
