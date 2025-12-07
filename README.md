@@ -1,4 +1,3 @@
-High-Level Architecture – SentinelGuard AI Gateway
                           ┌───────────────────────┐
                           │      User Prompt      │
                           └───────────────────────┘
